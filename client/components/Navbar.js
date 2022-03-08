@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import avatar from "../temp/profileImage.jpg";
 import { BsPerson } from "react-icons/bs";
+import { UberContext } from "../context/uberContext";
 
 const style = {
-  wrapper: `h-16 w-full bg-black text-white flex md:justify-around items-center px-60 fixed z-20`,
+  wrapper: `h-16 w-full bg-black text-white  flex md:justify-around items-center px-10 fixed z-20`,
   leftMenu: `flex gap-3`,
   logo: `text-3xl text-white flex cursor-pointer mr-16`,
   menuItem: `text-lg text-white font-medium flex items-center mx-4 cursor-pointer`,
@@ -15,10 +16,10 @@ const style = {
   loginText: `ml-2`,
 };
 
-const currentAccount = "0x000000000000000000000000000000000000";
-// const currentAccount = "";
-
 const Navbar = () => {
+  const { currentAccount, connectWallet, currentUser } =
+    useContext(UberContext);
+  // console.log(currentUser);
   return (
     <div className={style.wrapper}>
       <div className={style.leftMenu}>
@@ -30,7 +31,7 @@ const Navbar = () => {
 
       <div className={style.rightMenu}>
         <div className={style.menuItem}>Help</div>
-        <div className={style.menuItem}>Jimmy</div>
+        <div className={style.menuItem}>{currentUser?.name?.split(" ")[0]}</div>
         <div className={style.userImageContainer}>
           <Image
             className={style.userImage}
@@ -44,7 +45,7 @@ const Navbar = () => {
             {currentAccount.slice(0, 6)}...{currentAccount.slice(39)}
           </div>
         ) : (
-          <div className={style.loginButton}>
+          <div className={style.loginButton} onClick={connectWallet}>
             <BsPerson />
             <span className={style.loginText}>Log in</span>
           </div>
